@@ -1,6 +1,6 @@
 version: '2'
 services:
   app:
-    build: ./app/build
+    build: ./app/docker
     volumes: ['./app:/app']
     ports: ["5000:5000"]

@@ -5,7 +5,7 @@ setup(
     version='17.06',
     description='Base docker template for python projects',
     author='Joseph Niel Tuazon',
-    author_email='josephnieltuazon@gmail.com',
+    author_email='josephnieltuazon@yahoo.com',
     url='',
     license='MIT',
     keywords='python docker template',
