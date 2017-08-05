@@ -1,9 +1,10 @@
-def PublicViews(route):
+from flask import Response
+from flask.views import MethodView
+from . import route
 
-    @route("/")
-    def hello():
-        return "Hi!"
 
-    @route("/<int:number>")
-    def number(number):
-        return str(number)
+@route("/", "sample")
+class SampleView(MethodView):
+
+    def get(self) -> Response:
+        return "Hi"

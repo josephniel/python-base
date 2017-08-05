@@ -1,6 +1,7 @@
 from flask import Flask
 
-from v1.app import V1App
+from utils import import_submodules
+from v1.views import routes as v1_routes
 
 
 class Bootstrap(object):
@@ -8,9 +9,9 @@ class Bootstrap(object):
     processes needed to run the application.
     """
 
-    APPLICATION_WHITELIST = [
-        V1App(),
-    ]  # type: List[object]
+    APPLICATION_ROUTES_WHITELIST = {
+        'v1': v1_routes,
+    }
 
     def __init__(self):
         self.app = Flask(__name__)
@@ -20,19 +21,26 @@ class Bootstrap(object):
         which does the following:
 
             1. Loads the configuration from app/config/__init__.py
-            2. Registers necessary application blueprints
+            2. Registers necessary application routes
             3. Publishes the application
         """
         self.app.config.from_object('config')
-        self._register_blueprints()
+        self._register_routes()
         self._publish_application()
 
-    def _register_blueprints(self):
-        """Function that registers all the blueprints for the
+    def _register_routes(self):
+        """Function that registers all the routes for the
         application versions present in the codebase
         """
-        for application in self.APPLICATION_WHITELIST:
-            self.app.register_blueprint(application.get_blueprint())
+        for package in self.APPLICATION_ROUTES_WHITELIST.keys():
+            import_submodules(package)
+            for route in self.APPLICATION_ROUTES_WHITELIST[package]:
+                self.app.add_url_rule(
+                    "/{package}{location}".format(
+                        package=package,
+                        location=route.location
+                    ), view_func=route.view_func
+                )
 
     def _publish_application(self):
         """Function that publishes the application on a particular
