@@ -1,7 +1,7 @@
 from flask import Flask
 
 from utils import import_submodules
-from v1.views import routes as v1_routes
+from v1.views import ROUTES as v1_routes
 
 
 class Bootstrap(object):
@@ -32,9 +32,9 @@ class Bootstrap(object):
         """Function that registers all the routes for the
         application versions present in the codebase
         """
-        for package in self.APPLICATION_ROUTES_WHITELIST.keys():
+        for package, routes in self.APPLICATION_ROUTES_WHITELIST.items():
             import_submodules(package)
-            for route in self.APPLICATION_ROUTES_WHITELIST[package]:
+            for route in routes:
                 self.app.add_url_rule(
                     "/{package}{location}".format(
                         package=package,

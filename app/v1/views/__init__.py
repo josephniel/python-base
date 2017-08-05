@@ -1,14 +1,7 @@
-from collections import namedtuple
+from routes import route as base_route
 
-
-routes = []
+ROUTES = []
 
 
 def route(location, name):
-    def wrapper(cls):
-        class_route = namedtuple('ClassRoute', ['location', 'view_func'])
-        routes.append(class_route(
-            location=location, view_func=cls.as_view(name)
-        ))
-        return cls
-    return wrapper
+    return base_route(ROUTES, location, name)
