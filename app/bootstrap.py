@@ -1,7 +1,7 @@
 from flask import Flask
 
 from utils import import_submodules
-from v1.views import ROUTES as v1_routes
+from v1.views.router import ROUTES as v1_routes
 
 
 class Bootstrap(object):

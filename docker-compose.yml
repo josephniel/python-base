@@ -1,6 +1,17 @@
 version: '2'
 services:
   app:
-    build: ./app/docker
-    volumes: ['./app:/app']
-    ports: ["5000:5000"]
+    build: ./docker/app
+    container_name: python-app-container
+    ports: 
+      - 5000:5000
+    volumes: 
+      - ./app:/app
+  webpack:
+    build: ./docker/webpack
+    container_name: webpack-container
+    ports:
+      - 35729:35729
+    volumes:
+      - /app/node_modules
+      - ./app:/app

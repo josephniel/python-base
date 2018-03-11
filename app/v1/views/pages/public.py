@@ -1,10 +1,13 @@
-from flask import Response
+from flask import Response, render_template
 from flask.views import MethodView
-from . import route
+
+from ..router import route
 
 
 @route("/", "sample")
 class SampleView(MethodView):
 
     def get(self) -> Response:
-        return "Hi"
+        return render_template(
+            "hello.html"
+        )
